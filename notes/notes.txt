@@ -1,0 +1,21 @@
+PID values
+
+#define KP_ROLL_ANGLE  2.0f
+#define KI_ROLL_ANGLE  0.0f
+#define KD_ROLL_ANGLE  0.0f
+
+#define KP_PITCH_ANGLE  KP_ROLL_ANGLE
+#define KI_PITCH_ANGLE  KI_ROLL_ANGLE
+#define KD_PITCH_ANGLE  KD_ROLL_ANGLE
+
+#define KP_ROLL  1.43f
+#define KI_ROLL  3.15f
+#define KD_ROLL  0.27f
+
+#define KP_PITCH  KP_ROLL
+#define KI_PITCH  KI_ROLL
+#define KD_PITCH  KD_ROLL
+
+#define KP_YAW  2.0f
+#define KI_YAW  0.2f
+#define KD_YAW  0.0f // D term is not needed for yaw.
