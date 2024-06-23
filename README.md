@@ -1,4 +1,4 @@
-# Xilinx Zynq-7000 flight controller 
+# Xilinx Zynq-7000 Flight Controller 
 
 This is a custom flight controller for a quadcopter drone, implemented on a Zynq-7000 SoC on the [Zybo Z7-10 FPGA SoC Development Board](https://digilent.com/shop/zybo-z7-zynq-7000-arm-fpga-soc-development-board/?gad_source=1&gclid=Cj0KCQiAkeSsBhDUARIsAK3tiedDBNo96Tg5VWCeuEqzXgPKJSFg8GQ0qwLCV-v5TlTKltLerrQGLDkaAjBgEALw_wcB). The flight controller uses PID controllers along with a [MPU-6050 | 3 Axis Accelerometer Gyroscope ](https://www.amazon.com/HiLetgo-MPU-6050-Accelerometer-Gyroscope-Converter/dp/B01DK83ZYQ?th=1) for flight stability. Two flight modes are available: Rate Mode (Acro Mode) which uses a single loop PID controller and Stabilize Mode (Self-Leveling Mode) which uses a dual loop PID controller.
 
