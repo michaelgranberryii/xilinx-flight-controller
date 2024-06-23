@@ -14,7 +14,6 @@
 #include "mpu_6050.h"
 #include "sleep.h"
 #include "complementary_filter.h"
-#include "fir.h"
 #include "axi_timer_ppm_receiver.h"
 
 #define KP_ROLL_ANGLE  2.0f

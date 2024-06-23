@@ -47,16 +47,11 @@ SetPoint setpoint = {0,0,0,0,0,0};
 Gyro gyro = {0,0,0};
 Angle angle = {0,0};
 
-
-FIRFilter fir_roll;
-FIRFilter fir_pitch;
-FIRFilter fir_yaw;
-
 u32 loop_start;
 
 void pid_dual_loop_stabilize() {
 	loop_start = scu_timer_get_curr_micros();
-	// Reading sensor **********************************************************
+	// Reading sensor
 	float ax_mps2 = mpu_6050_get_accel_x_cal();
 	float ay_mps2 = mpu_6050_get_accel_y_cal();
 	float az_mps2 = mpu_6050_get_accel_z_cal();
@@ -65,48 +60,36 @@ void pid_dual_loop_stabilize() {
 	gyro.y_rps = mpu_6050_get_gyro_y_cal(); // y
 	gyro.z_rps = mpu_6050_get_gyro_z_cal();
 
-//	gyro.x_rps = FIRFilter_Update(&fir_roll, mpu_6050_get_gyro_x_cal());
-//	gyro.y_rps = FIRFilter_Update(&fir_pitch, mpu_6050_get_gyro_y_cal());
-//	gyro.z_rps = FIRFilter_Update(&fir_yaw, mpu_6050_get_gyro_z_cal());
-
 	float rollx = mpu_6050_get_angle_roll(ay_mps2, ax_mps2, az_mps2);
 	float pitchy = mpu_6050_get_angle_pitch(ax_mps2, ay_mps2, az_mps2);
 
-	//	angle.angle_roll = kalman_filter_get_angle_roll(ax_mps2, rollx);
-	//	angle.angle_pitch = kalman_filter_get_angle_pitch(ay_mps2, pitchy);
 	angle.angle_roll = comp_filter_get_roll(rollx, gyro.x_rps);
 	angle.angle_pitch = comp_filter_get_pitch(pitchy, gyro.y_rps);
 
-	// Outer PID Loop **********************************************************
+	// Outer PID Loop
 	setpoint.DesiredAngleRoll = transformation(get_ch1(), 0.05); // +- 50 degrees
 	setpoint.DesiredAnglePitch = transformation(get_ch2(), -0.05); // +- 50 degrees
 	input.throttle = (float)get_ch3();
 	setpoint.desired_rate_yaw = transformation(get_ch4(), 0.15); // +- 75 degrees
 
-//	printf("angle.k_angle_roll: %f, angle.k_angle_pitch: %f, ", angle.angle_roll, angle.angle_pitch);
-//	printf("setpoint.DesiredAngleRoll: %f, setpoint.DesiredAnglePitch: %f\n\r", setpoint.DesiredAngleRoll, setpoint.DesiredAnglePitch);
-
 	pid_controller_update(&pid_roll_angle, setpoint.DesiredAngleRoll, angle.angle_roll);
 	pid_controller_update(&pid_pitch_angle, setpoint.DesiredAnglePitch, angle.angle_pitch);
 
-	// Inner PID Loop **********************************************************
+	// Inner PID Loop
 	setpoint.desired_rate_roll = pid_roll_angle.out;
 	setpoint.desired_rate_pitch = pid_pitch_angle.out;
-
-//	printf("%f, %f\n\r", pid_pitch_angle.out, setpoint.DesiredAnglePitch);
 
 	pid_controller_update(&pid_roll, setpoint.desired_rate_roll, gyro.x_rps);
 	pid_controller_update(&pid_pitch, setpoint.desired_rate_pitch, gyro.y_rps);
 	pid_controller_update(&pid_yaw, setpoint.desired_rate_yaw, gyro.z_rps);
 
-	// PID Out **********************************************************
+	// PID Out
 	input.roll = pid_roll.out;
 	input.pitch = pid_pitch.out;
 	input.yaw = pid_yaw.out;
 
 	motor_update(input, motor);
 
-//	printf("diff: %lu\n\r", scu_timer_get_curr_micros()-loop_start);
 	while(scu_timer_get_curr_micros()-loop_start < 4000);
 }
 
@@ -114,17 +97,9 @@ void pid_dual_loop_stabilize() {
 void pid_single_loop_rate() {
 	loop_start = scu_timer_get_curr_micros();
 
-//	printf("pid_pitch_angle.Kp: %.2f, pid_pitch.Ki: %.2f, pid_pitch.Kd: %.2f\n\r", pid_pitch.Kp, pid_pitch.Ki, pid_pitch.Kd);
-
 	gyro.x_rps = mpu_6050_get_gyro_x_cal(); // x
 	gyro.y_rps = mpu_6050_get_gyro_y_cal(); // y
 	gyro.z_rps = mpu_6050_get_gyro_z_cal();
-
-//	gyro.x_rps = FIRFilter_Update(&fir_roll, mpu_6050_get_gyro_x_cal());
-//	gyro.y_rps = FIRFilter_Update(&fir_pitch, mpu_6050_get_gyro_y_cal());
-//	gyro.z_rps = FIRFilter_Update(&fir_yaw, mpu_6050_get_gyro_z_cal());
-
-	printf("Gx: %f, \t Gy: %f \n\r", gyro.x_rps, gyro.y_rps);
 
 	setpoint.desired_rate_roll = transformation(get_ch1(), 0.05); // +- 50 degrees
 	setpoint.desired_rate_pitch = transformation(get_ch2(), -0.05); // +- 50 degrees
@@ -137,17 +112,15 @@ void pid_single_loop_rate() {
 	pid_controller_update(&pid_pitch, setpoint.desired_rate_pitch, gyro.y_rps);
 	pid_controller_update(&pid_yaw, setpoint.desired_rate_yaw, gyro.z_rps);
 
-
-//	printf("%f,%f\n\r", pid_pitch.out, setpoint.desired_rate_pitch);
-
 	// PID Out
 	input.roll = pid_roll.out;
 	input.pitch = pid_pitch.out;
 	input.yaw = pid_yaw.out;
 
+	// Update motor outputs
 	motor_update(input, motor);
 
-//	printf("diff: %lu\n\r", scu_timer_get_curr_micros()-loop_start);
+	// While for sample time = 4ms
 	while(scu_timer_get_curr_micros()-loop_start < 4000);
 }
 

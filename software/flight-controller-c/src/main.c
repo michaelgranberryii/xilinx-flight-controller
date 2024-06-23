@@ -18,7 +18,6 @@
 #include "mpu_6050.h"
 #include "pid.h"
 #include "complementary_filter.h"
-#include "fir.h"
 
 XScuGic_Config *gic_config;
 XScuGic gic;
