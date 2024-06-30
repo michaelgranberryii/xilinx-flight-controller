@@ -1,0 +1,7 @@
+# KiCAD
+*-backups
+~*
+_autosave*
+fp-info-cache
+*gerbers
+*gerbers.zip
