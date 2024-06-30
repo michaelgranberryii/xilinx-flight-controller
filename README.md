@@ -20,7 +20,9 @@ This is a custom flight controller for a quadcopter drone, implemented on a Zynq
 
 ## Demo Video
 
-[Youtube Video](https://youtu.be/Y33_4j8bIS8)
+* [Youtube Video Demo 1](https://youtu.be/7qQ3-POSWRU)
+* [Youtube Video Demo 2](https://youtu.be/jsMdaXCYHB4)
+
 
 ## Images
 
