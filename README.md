@@ -17,3 +17,15 @@ This is a custom flight controller for a quadcopter drone, implemented on a Zynq
 
 * [Xilinx Vivado](https://www.xilinx.com/products/design-tools/vivado.html)
 * [Xilinx Vitis](https://www.xilinx.com/products/design-tools/vitis.html)
+
+## Demo Video
+
+[Youtube Video](https://youtu.be/Y33_4j8bIS8)
+
+## Images
+
+Other sesnors are planned to integrated.
+
+![alt text](images/flight-controller-bottom.png)
+![alt text](images/flight-controller-top.png)
+![alt text](images/flight-controller-on-drone.png)
