@@ -20,13 +20,15 @@ This is a custom flight controller for a quadcopter drone, implemented on a Zynq
 
 ## Demo Video
 
-* [Youtube Video Demo 1](https://youtu.be/7qQ3-POSWRU)
-* [Youtube Video Demo 2](https://youtu.be/jsMdaXCYHB4)
+* [Youtube Video Demo: Flight Test](https://youtu.be/FbfccM_4fSk?si=GJgJV7dLbOb1_a_V)
+* [Youtube Video Demo: Mini Flight Test and KiCAD PCB Test](https://youtu.be/7qQ3-POSWRU)
+* [Youtube Video Demo: PID Controller Test](https://youtu.be/jsMdaXCYHB4)
+
 
 
 ## Images
 
-Other sesnors are planned to integrated.
+Additional sensors (barometer, GPS, magnetometer, camera, etc.) are being integrated to enable features such as altitude hold, position hold, and object avoidance/detection.
 
 ![alt text](images/flight-controller-bottom.png)
 ![alt text](images/flight-controller-top.png)
